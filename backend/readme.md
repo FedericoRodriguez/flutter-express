@@ -1,7 +1,10 @@
 Mongo
-Go to: D:\Code\MongoDb\Server\4.4\bin and open two terminals
-Execute mongod.exe
-Execute in the other mongo.exe
+Go to: Tour path where mongo server is ...MongoDb\Server\4.4\bin and open two terminals
+
+Execute mongod.exe to start the server
+
+Execute in the other mongo.exe to start the client version (Testing, Database manipulation)
+
 /////show dbs
 /////show collections
 /////use myDB
@@ -10,4 +13,7 @@ Execute in the other mongo.exe
 Express
 
 On other terminal execute:
+
+npm install
+
 npm run start
