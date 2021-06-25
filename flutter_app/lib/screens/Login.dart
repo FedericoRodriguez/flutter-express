@@ -65,66 +65,76 @@ class _LoginPageState extends State<LoginPage> {
         appBar: AppBar(
           title: Text('Login'),
         ),
-        body: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle:
-                        TextStyle(color: Colors.black.withOpacity(0.6))),
-                onSaved: (String? value) {
-                  _email = value.toString();
-                },
-                // The validator receives the text that the user has entered.
-                validator: (value) {
-                  if (_errorFromBackend) {
-                    return 'Invalid Email';
-                  }
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the email';
-                  }
+        body: Center(
+            child: Container(
+                margin: EdgeInsets.only(left: 15, right: 15),
+                padding: EdgeInsets.all(30),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only( bottom: 40),
+                        child: Text(
+                            "Please complete the form with your credentials."),
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            labelText: 'Email',
+                            labelStyle: TextStyle(
+                                color: Colors.black.withOpacity(0.6))),
+                        onSaved: (String? value) {
+                          _email = value.toString();
+                        },
+                        // The validator receives the text that the user has entered.
+                        validator: (value) {
+                          if (_errorFromBackend) {
+                            return 'Invalid Email';
+                          }
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the email';
+                          }
 
-                  return null;
-                },
-              ),
-              TextFormField(
-                decoration: InputDecoration(
-                    labelText: 'Pasword',
-                    labelStyle:
-                        TextStyle(color: Colors.black.withOpacity(0.6))),
-                onSaved: (String? value) {
-                  _password = value.toString();
-                },
-                validator: (value) {
-                  if (_errorFromBackend) {
-                    return 'Invalid Password';
-                  }
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter the password';
-                  }
+                          return null;
+                        },
+                      ),
+                      TextFormField(
+                        decoration: InputDecoration(
+                            labelText: 'Pasword',
+                            labelStyle: TextStyle(
+                                color: Colors.black.withOpacity(0.6))),
+                        onSaved: (String? value) {
+                          _password = value.toString();
+                        },
+                        validator: (value) {
+                          if (_errorFromBackend) {
+                            return 'Invalid Password';
+                          }
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter the password';
+                          }
 
-                  return null;
-                },
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (!_formKey.currentState!.validate()) {
-                      return;
-                    }
+                          return null;
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (!_formKey.currentState!.validate()) {
+                              return;
+                            }
 
-                    _formKey.currentState!.save();
-                    loginUser();
-                  },
-                  child: Text('Submit'),
-                ),
-              ),
-            ],
-          ),
-        ));
+                            _formKey.currentState!.save();
+                            loginUser();
+                          },
+                          child: Text('Submit'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ))));
   }
 }

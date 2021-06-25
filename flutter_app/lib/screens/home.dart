@@ -18,6 +18,7 @@ class _HomePageState extends State<HomePage> {
     return MaterialApp(
       theme: ThemeData(
         primarySwatch: Colors.purple,
+
       ),
       home: Scaffold(
         appBar: AppBar(
