@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/theme/style.dart';
 import 'package:flutter_app/utils/Routes.dart';
+import 'package:flutter_app/screens/home.dart';
 
-void main() => runApp(MyApp());
+void main() =>  runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
       title: 'LoveMeter Home',
       theme: appTheme(),
       routes: Routes.routes(),
-      initialRoute: Routes.initScreen(),
-      //  home: HomePage(), //RandomWords(),
+     // initialRoute: Routes.initScreen(),
+      home: HomePage(), //RandomWords(),
     );
   }
 }

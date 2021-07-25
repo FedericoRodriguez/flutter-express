@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-      primaryColor: Colors.black,
+      primaryColor: Colors.purple,
       accentColor: Colors.orange,
       hintColor: Colors.red,
       dividerColor: Colors.blue,

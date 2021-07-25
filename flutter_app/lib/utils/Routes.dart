@@ -7,7 +7,8 @@ import 'package:flutter_app/screens/ViewUser.dart';
 class Routes {
   static routes() {
     return {
-      '/': (context) => HomePage(),
+     // '/': (context) => HomePage(),
+      HomePage.ROUTE_ID: (context) => HomePage(),
       LoginPage.ROUTE_ID: (context) =>LoginPage(),
       UserListPage.ROUTE_ID: (context) => UserListPage(),
       RegisterUserPage.ROUTE_ID: (context) => RegisterUserPage(),

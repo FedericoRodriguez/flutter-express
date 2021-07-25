@@ -34,6 +34,7 @@ dependencies:
 
   # The following adds the session.
   flutter_session:
+  shared_preferences: ^0.5.8
 
 dev_dependencies:
   flutter_test:
