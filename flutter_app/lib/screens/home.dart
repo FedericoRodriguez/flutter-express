@@ -16,6 +16,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      // ignore: unnecessary_statements
+      index == 1
+          ? _createAccount(context)
+          : index == 2
+              ? _goToUsersList(context)
+              : false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     /*final wordPair = WordPair.random();
@@ -26,10 +40,37 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         elevation: 4,
         actions: [IconAccount()],
-        leading: TextWelcome(),
-        leadingWidth:130,
+        leading: TextWelcome(false),
+        leadingWidth: 130,
       ),
       body: _buildHome(context),
+      bottomNavigationBar: FutureBuilder(
+          future: FlutterSession().get('authToken'),
+          builder: (context, snapshot) {
+            if (snapshot.hasData && snapshot.data != '') {
+              return BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.add),
+                      label: 'User',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.view_list_outlined),
+                      label: 'Users',
+                    ),
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: Colors.greenAccent,
+                  unselectedItemColor: Colors.greenAccent,
+                  onTap: _onItemTapped,
+                  backgroundColor: Colors.purple);
+            }
+            return Text('');
+          }),
     );
   }
 
@@ -43,37 +84,13 @@ class _HomePageState extends State<HomePage> {
             return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  TextWelcome(true),
+                  SizedBox(height: 100),
                   TextButton(
                     style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),
                         padding: const EdgeInsets.all(16.0),
-                        primary: Colors.green,
-                        backgroundColor: Colors.purple),
-                    child: Text(
-                      'User List',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onPressed: () => _goToUsersList(context),
-                  ),
-                  const SizedBox(height: 30),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                        padding: const EdgeInsets.all(16.0),
-                        primary: Colors.black,
-                        backgroundColor: Colors.purple),
-                    child: Text(
-                      'Create Account ',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    onPressed: () => _createAccount(context),
-                  ),
-                  const SizedBox(height: 30),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                        textStyle: const TextStyle(fontSize: 20),
-                        padding: const EdgeInsets.all(16.0),
-                        primary: Colors.blue,
+                        primary: Colors.greenAccent,
                         backgroundColor: Colors.purple),
                     child: Text(
                       'Add five more User ',
@@ -83,7 +100,12 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ]);
           } else {
-            return Text('Please Sign in. Click on the account icon.');
+            return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: 120),
+                  Text('Please Sign in. Click on the account icon.')
+                ]);
           }
         });
   }

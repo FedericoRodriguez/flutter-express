@@ -10,7 +10,7 @@ class TextIcon extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        Text(text),
+        Text(text,style: TextStyle(color: Colors.greenAccent)),
         Icon(
           Icons.favorite,
           color: Colors.red,

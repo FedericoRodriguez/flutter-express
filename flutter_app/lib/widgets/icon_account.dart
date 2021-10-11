@@ -19,11 +19,11 @@ class IconAccount extends StatelessWidget {
               if (snapshot.hasData && snapshot.data != '') {
                 return IconButton(
                     onPressed: () {_logoutAccount(context);} ,
-                    icon: Icon(Icons.logout));
+                    icon: Icon(Icons.logout,color: Colors.greenAccent,));
               } else {
                 return IconButton(
                     onPressed: () {  _gotoLogin(context);} ,
-                    icon: Icon(Icons.account_circle_outlined));
+                    icon: Icon(Icons.account_circle_outlined,color: Colors.greenAccent));
               }
             }),
       ],
