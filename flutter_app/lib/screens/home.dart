@@ -6,6 +6,7 @@ import 'package:flutter_app/widgets/text_icon.dart';
 import 'package:flutter_app/widgets/text_welcome.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:flutter_app/widgets/icon_account.dart';
+import 'package:flutter_app/screens/RealationSlider.dart';
 
 class HomePage extends StatefulWidget {
   HomePage() : super();
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
-      // ignore: unnecessary_statements
+      //routing
       index == 1
           ? _createAccount(context)
           : index == 2
@@ -86,6 +87,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   TextWelcome(true),
                   SizedBox(height: 100),
+                  RelationSlider(),
                   TextButton(
                     style: TextButton.styleFrom(
                         textStyle: const TextStyle(fontSize: 20),

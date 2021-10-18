@@ -2,7 +2,7 @@
     package="com.feche.flutter_app">
    <application
         android:label="flutter_app"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/lovemeter">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

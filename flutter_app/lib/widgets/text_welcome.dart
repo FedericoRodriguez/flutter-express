@@ -15,7 +15,7 @@ class TextWelcome extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != '' && this.named) {
                 return  Expanded(flex: 1,
-                  child: Text('Hi, ${snapshot.data.toString()}'),
+                  child: Text('Hi, ${snapshot.data.toString()}',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.greenAccent, fontSize:32,),),
                 );
               } else if (snapshot.hasData && snapshot.data != '') {
                 return Row(
@@ -23,17 +23,17 @@ class TextWelcome extends StatelessWidget {
                   children: <Widget>[
                     Icon(
                       Icons.favorite,
-                      color: Colors.red,
+                      color: Colors.greenAccent,
                       size: 15.0,
                     ),
                     Icon(
                       Icons.favorite,
-                      color: Colors.red,
+                      color: Colors.greenAccent,
                       size: 15.0,
                     ),
                     Icon(
                       Icons.favorite,
-                      color: Colors.red,
+                      color: Colors.greenAccent,
                       size: 15.0,
                     )
                   ],

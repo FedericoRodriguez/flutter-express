@@ -31,7 +31,8 @@ dependencies:
 
   # The following adds the http.
   http: any
-
+  # Notification
+  flutter_local_notifications: ^4.0.0
   # The following adds the session.
   flutter_session:
   shared_preferences: ^0.5.8
