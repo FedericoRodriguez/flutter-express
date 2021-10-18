@@ -10,6 +10,8 @@ const userSchema = mongoose.Schema({
       /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
   },
   password: { type: String, required: true },
+  score: { type: String },
+  isAdmin: { type: Boolean, require: true },
 })
 
 module.exports = mongoose.model('User', userSchema)

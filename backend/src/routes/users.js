@@ -40,6 +40,8 @@ router.get('/api/users/fake_create', async (req, res) => {
         _id: new mongoose.Types.ObjectId(),
         email: faker.internet.email(),
         password: faker.internet.password(),
+        score: '0',
+        isAdmin: false,
       })
       await user
         .save()
@@ -62,6 +64,8 @@ router.post('/api/users/create', async (req, res) => {
       _id: new mongoose.Types.ObjectId(),
       email: req.body.email,
       password: req.body.password,
+      score: '0',
+      isAdmin: false,
     })
     await user
       .save()
@@ -126,6 +130,24 @@ router.post('/api/users/login', async (req, res) => {
     })
   } catch (e) {
     console.log('Show me the error: ', e)
+  }
+})
+
+router.put('/api/users/update', async (req, res) => {
+  try {
+    const filter = { email: req.body.email }
+    const update = { score: req.body.score }
+
+    await User.findOneAndUpdate(filter, update)
+      .then((result) => {
+        res.json({ status: '200', message: 'Users created' })
+      })
+      .catch((err) => {
+        res.json({ status: '500', message: 'Users created Fail' })
+        console.log('--Show me the error: ', err)
+      })
+  } catch (e) {
+    console.log('Show me the error (Update): ', e)
   }
 })
 
