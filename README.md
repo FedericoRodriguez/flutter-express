@@ -1,2 +1,5 @@
 # flutter-express
-Flutter and Express
+Flutter mobile App conected to a Express API which store data in a Mongo DB.
+
+* Notifications
+* User Session
