@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/widgets/text_icon.dart';
 import 'package:flutter_app/widgets/feels_icon.dart';
-//import 'package:flutter_app/models/user.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -17,14 +15,15 @@ class _RelationSlider extends State<RelationSlider> {
   bool _isClicked = false;
   String username = "Fede";
   Map<String, dynamic> data = {};
-
   Map<String, String> newUser = {};
+  late Future userFuture;
 
   final FlutterLocalNotificationsPlugin fltrNotification =
       FlutterLocalNotificationsPlugin();
   @override
   void initState() {
     super.initState();
+    userFuture = _getOneUser();
 
     // Future<dynamic> _userFuture = Future<dynamic>.value(getUser());
     const AndroidInitializationSettings androidInitialize =
@@ -56,11 +55,11 @@ class _RelationSlider extends State<RelationSlider> {
 
     fltrNotification.show(
         1,
-        "Lovemeter in: ",
+        "\u2764\u2764\u2764Lovemeter in: ",
         _currentSliderValue.toInt().toString() + " %",
         generalNotificationDetails);
   }
-
+/*
   Widget createListView(BuildContext context, AsyncSnapshot snapshot) {
     var values = snapshot.data;
     return SizedBox(
@@ -86,13 +85,13 @@ class _RelationSlider extends State<RelationSlider> {
       ),
     );
   }
-
+*/
   Future _updateUserDBState() async {
     //update the user data with the new value from the slider
     // _currentSliderValue
     dynamic _email = await FlutterSession().get("authToken");
     String score = _currentSliderValue.toInt().toString();
-
+    print('Update score...${score}');
     Future<http.Response> response =
         http.put(Uri.http("10.0.2.2:4000", "/api/users/update"),
             headers: <String, String>{
@@ -118,6 +117,12 @@ class _RelationSlider extends State<RelationSlider> {
                   print('Backend message, ${data['message']}!'),
                   print('Start sending notification...'),
                   _showNotification(),
+
+                  print('The updated user:, ${data['user']}!'),
+                setState(() {
+                  _currentSliderValue = double.parse(data['user']['score']);
+                  //_userFuture = getUser();
+                  }),
                 }
               else if (data['status'] == "500")
                 {print('Backend message Error: , ${data['message']}!')}
@@ -129,20 +134,30 @@ class _RelationSlider extends State<RelationSlider> {
     // debugPrint(response);
   }
 
-  Future getUsersData() async {
-    /*  List<User> _userData = await DBProvider.db.getUser();
-    return _userData;
-
-   */
-    /*final Future futureDB = dbconn.initDB();
-    return futureDB.then((db) {
-      Future<List<Trans>> futureTrans = dbconn.trans();
-      futureTrans.then((transList) {
-        setState(() {
-          this.transList = transList;
-        });
+  Future _getOneUser()  async{
+    FlutterSession().get('authToken').then((result){
+      String _email = result;
+      Future<http.Response> response =
+      http.get(Uri.parse('http://10.0.2.2:4000/api/users?email=${_email}'));
+      response.then((value) => {
+        print('Get user  account...'),
+        data = jsonDecode(value.body),
+        if (data['status'] == "200")
+          {
+            print('Dataaaaaa, ${data['data']}!'),
+            print('Backend message, ${data['message']}!'),
+            setState(() {
+              _currentSliderValue = double.parse(data['data']['score']);
+            }),
+          }
+        else if (data['status'] == "500")
+          {print('Backend message Error: , ${data['message']}!')}
       });
-    });*/
+      response.catchError((onError) => {print('Servers Down!')});
+    });
+
+    // print('Howdy, ${data['users']}!');
+    // debugPrint(response);
   }
 
   @override
@@ -178,12 +193,6 @@ class _RelationSlider extends State<RelationSlider> {
                 setState(() {
                   _isClicked = true;
                 });
-                /* var newDBUser = User(
-                    username: username, score: _currentSliderValue.toString());
-
-                DBProvider.db.newUser(newDBUser);
-
-                */
                 _updateUserDBState();
               },
               textColor: Colors.white,
@@ -230,27 +239,6 @@ class _RelationSlider extends State<RelationSlider> {
                                     : Colors.red,
                     fontWeight: FontWeight.bold))),
       ),
-      Padding(
-          padding: EdgeInsets.only(top: 0.0, bottom: 0.0),
-          child: FutureBuilder(
-            future: getUsersData(),
-            initialData: [],
-            builder: (context, snapshot) {
-              if (snapshot.data != null && snapshot.connectionState != null)
-                return createListView(context, snapshot);
-
-              return Text('HI');
-              /*if (snapshot != null && snapshot.connectionState != null) {
-                if (!newUser.containsKey('username')) {
-                  newUser = Map<String, String>.from(snapshot.data);
-                }
-                return createListView(context, snapshot);
-               //return Column(children: <Widget>[createListView]);
-              } else {
-                return Text('HI');
-              }*/
-            },
-          ))
     ]);
   }
 }

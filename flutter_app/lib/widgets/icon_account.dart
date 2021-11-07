@@ -35,6 +35,7 @@ class IconAccount extends StatelessWidget {
   }
   _logoutAccount(context) async {
     FlutterSession().set('authToken', '');
+    FlutterSession().set('isAdmin', '');
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.clear();
     await Navigator.pushReplacementNamed(context, HomePage.ROUTE_ID);

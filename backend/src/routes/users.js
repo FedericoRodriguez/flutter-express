@@ -64,7 +64,7 @@ router.post('/api/users/create', async (req, res) => {
       _id: new mongoose.Types.ObjectId(),
       email: req.body.email,
       password: req.body.password,
-      score: '0',
+      score: '50',
       isAdmin: false,
     })
     await user
@@ -138,9 +138,10 @@ router.put('/api/users/update', async (req, res) => {
     const filter = { email: req.body.email }
     const update = { score: req.body.score }
 
-    await User.findOneAndUpdate(filter, update)
+    await User.findOneAndUpdate(filter, update, { new: true })
       .then((result) => {
-        res.json({ status: '200', message: 'Users created' })
+        console.log('Show me the updated user: ', result)
+        res.json({ status: '200', message: 'Users created', user: result })
       })
       .catch((err) => {
         res.json({ status: '500', message: 'Users created Fail' })

@@ -48,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
               //saveSessionData(context, data['data']),
               print('Session value: , ${await FlutterSession().get('authToken')}'),
               await FlutterSession().set('authToken', data['data']['email']),
+              await FlutterSession().set('isAdmin', data['data']['isAdmin']),
               await Navigator.pushReplacementNamed(context,'/'),
             }
           else if (data['status'] == "500")

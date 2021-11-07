@@ -18,17 +18,53 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  late Future userLoggedIn;
+  late Future isAdmin;
+  Map<String, dynamic> data = {};
+
+
+  @override
+  void initState() {
+    super.initState();
+    userLoggedIn = _getUserToken();
+    isAdmin = _getIsAdmin();
+  }
+
+
+  _getUserToken() async{
+    return FlutterSession().get('authToken');
+  }
+
+  _getIsAdmin() async{
+  return  FlutterSession().get('isAdmin');
+  }
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-      //routing
-      index == 1
-          ? _createAccount(context)
-          : index == 2
+
+    isAdmin.then((res){
+      if(res != null && res == true){
+        setState(() {
+          _selectedIndex = index;
+          //routing
+          index == 1
+              ? _createAccount(context)
+              : index == 2
               ? _goToUsersList(context)
               : false;
+        });
+      } else {
+        setState(() {
+          _selectedIndex = index;
+          //routing
+          index == 1
+              ? _goToUsersList(context)
+              :false;
+        });
+      }
     });
+
+
+
   }
 
   @override
@@ -46,15 +82,23 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _buildHome(context),
       bottomNavigationBar: FutureBuilder(
-          future: FlutterSession().get('authToken'),
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data != '') {
+          future: Future.wait([userLoggedIn,isAdmin]),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+            if (!snapshot.hasData) {
+              return CircularProgressIndicator();
+            }
+            var token = snapshot.data![0];
+            var admin = snapshot.data![1];
+
+            if (token != null && admin == true) {
               return BottomNavigationBar(
                   items: const <BottomNavigationBarItem>[
+
                     BottomNavigationBarItem(
                       icon: Icon(Icons.home),
                       label: 'Home',
                     ),
+
                     BottomNavigationBarItem(
                       icon: Icon(Icons.add),
                       label: 'User',
@@ -63,6 +107,26 @@ class _HomePageState extends State<HomePage> {
                       icon: Icon(Icons.view_list_outlined),
                       label: 'Users',
                     ),
+
+                  ],
+                  currentIndex: _selectedIndex,
+                  selectedItemColor: Colors.greenAccent,
+                  unselectedItemColor: Colors.greenAccent,
+                  onTap: _onItemTapped,
+                  backgroundColor: Colors.purple);
+            } else if(token != null  && admin != true) {
+              return BottomNavigationBar(
+                  items: const <BottomNavigationBarItem>[
+
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.home),
+                      label: 'Home',
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.view_list_outlined),
+                      label: 'Users',
+                    ),
+
                   ],
                   currentIndex: _selectedIndex,
                   selectedItemColor: Colors.greenAccent,
@@ -77,9 +141,16 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildHome(context) {
     return FutureBuilder(
-        future: FlutterSession().get('authToken'),
-        builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data != '') {
+        future: Future.wait([userLoggedIn,isAdmin]),
+        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+          if (!snapshot.hasData) {
+            return CircularProgressIndicator();
+          }
+          var token = snapshot.data![0];
+          var admin = snapshot.data![1];
+          print('TOKEN: , ${token}!');
+          print('ADMIN: , ${admin}!');
+          if (token != null && admin == true) {
             //snapshot.connectionState //ConnectionState.done ///ConnectionState.waiting
             print('Home Logged in: , ${snapshot.data}!');
             return Column(
@@ -100,6 +171,16 @@ class _HomePageState extends State<HomePage> {
                     ),
                     onPressed: () => _addFiveMoreUsers(context),
                   ),
+                ]);
+          } else if(token != null && admin != true) {
+            //snapshot.connectionState //ConnectionState.done ///ConnectionState.waiting
+            print('Home Logged in: , ${snapshot.data}!');
+            return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextWelcome(true),
+                  SizedBox(height: 100),
+                  RelationSlider(),
                 ]);
           } else {
             return Column(

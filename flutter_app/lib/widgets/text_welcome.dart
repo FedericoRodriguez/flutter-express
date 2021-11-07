@@ -15,7 +15,7 @@ class TextWelcome extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != '' && this.named) {
                 return  Expanded(flex: 1,
-                  child: Text('Hi, ${snapshot.data.toString()}',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.greenAccent, fontSize:32,),),
+                  child: Text('Hi, ${snapshot.data.toString()}',style: TextStyle(fontWeight: FontWeight.bold, color: Colors.greenAccent, fontSize:20,),),
                 );
               } else if (snapshot.hasData && snapshot.data != '') {
                 return Row(
